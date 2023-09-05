@@ -73,11 +73,7 @@ const TodoInput = ({ inputValue, onChange, onKeyDown, onAddTodo }) => {
     <StyledAddTodoContainer
       className={clsx('', { active: inputValue.length > 0 })}
     >
-      <StyledLabelIcon
-        className="icon"
-        htmlFor="add-todo-input"
-        onClick={onAddTodo}
-      />
+      <StyledLabelIcon className="icon" htmlFor="add-todo-input" />
       <StyledInputContainer>
         <input
           id="add-todo-input"
@@ -95,7 +91,7 @@ const TodoInput = ({ inputValue, onChange, onKeyDown, onAddTodo }) => {
       <StyledAddTodoActionContainer
         className={clsx('', { active: inputValue.length > 0 })}
       >
-        <button className="btn-reset">新增</button>
+        <button className="btn-reset" onChange={onAddTodo}>新增</button>
       </StyledAddTodoActionContainer>
     </StyledAddTodoContainer>
   );
