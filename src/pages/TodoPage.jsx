@@ -64,6 +64,17 @@ const TodoPage = () => {
       });
     });
   };
+
+  const handleChangeMode = ({ id, isEdit }) => {
+    setTodos((todos) => {
+      return todos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, isEdit };
+        }
+        return { ...todo, isEdit: false };
+      });
+    });
+  };
   return (
     <div>
       TodoPage
@@ -74,8 +85,11 @@ const TodoPage = () => {
         onAddTodo={handleAddTodo}
         onKeyDown={handleKeyDown}
       />
-      <TodoCollection todos={todos} onToggleDone={handleToggleDown} />
-      <Footer />
+      <TodoCollection
+        todos={todos}
+        onToggleDone={handleToggleDown}
+        onChangeMode={handleChangeMode}
+      />
     </div>
   );
 };
