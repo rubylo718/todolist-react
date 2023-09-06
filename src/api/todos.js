@@ -11,7 +11,7 @@ export const getTodos = async () => {
   }
 };
 
-export const createTodos = async (payload) => {
+export const createTodo = async (payload) => {
   const { title, isDone } = payload;
   try {
     const res = await axios.post(`${baseUrl}/todos`, { title, isDone });
@@ -21,6 +21,6 @@ export const createTodos = async (payload) => {
   }
 };
 
-export const patchTodos = () => {};
+export const patchTodo = () => {};
 
-export const deleteTodos = () => {};
+export const deleteTodo = () => {};

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Footer, Header, TodoCollection, TodoInput } from 'components';
 
-import { getTodos } from '../api/todos';
+import { getTodos, createTodo } from '../api/todos';
 
 const TodoPage = () => {
   const [inputValue, setInputValue] = useState('');
@@ -11,25 +11,41 @@ const TodoPage = () => {
     setInputValue(e.target.value);
   };
 
-  const handleAddTodo = () => {
+  const handleAddTodo = async () => {
     if (inputValue.length === 0) {
       return;
     }
-    setTodos([
-      ...todos,
-      { title: inputValue, isDone: false, id: Math.random() * 100 },
-    ]);
+    try {
+      const data = await createTodo({
+        title: inputValue,
+        isDone: false,
+      });
+      setTodos([
+        ...todos,
+        { id: data.id, title: data.title, isDone: data.isDone, isEdit: false },
+      ]);
+    } catch (err) {
+      console.error(err);
+    }
     setInputValue('');
   };
 
-  const handleKeyDown = () => {
+  const handleKeyDown = async () => {
     if (inputValue.length === 0) {
       return;
     }
-    setTodos([
-      ...todos,
-      { title: inputValue, isDone: false, id: Math.random() * 100 },
-    ]);
+    try {
+      const data = await createTodo({
+        title: inputValue,
+        isDone: false,
+      });
+      setTodos([
+        ...todos,
+        { id: data.id, title: data.title, isDone: data.isDone, isEdit: false },
+      ]);
+    } catch (err) {
+      console.error(err);
+    }
     setInputValue('');
   };
 

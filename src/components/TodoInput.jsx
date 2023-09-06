@@ -91,7 +91,7 @@ const TodoInput = ({ inputValue, onChange, onKeyDown, onAddTodo }) => {
       <StyledAddTodoActionContainer
         className={clsx('', { active: inputValue.length > 0 })}
       >
-        <button className="btn-reset" onChange={onAddTodo}>新增</button>
+        <button className="btn-reset" onClick={onAddTodo}>新增</button>
       </StyledAddTodoActionContainer>
     </StyledAddTodoContainer>
   );
