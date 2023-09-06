@@ -76,16 +76,23 @@ const TodoPage = () => {
     });
   };
 
-  const handleSave =({ id, title}) => {
+  const handleSave = ({ id, title }) => {
     setTodos((todos) => {
-      return todos.map((todo)=> {
+      return todos.map((todo) => {
         if (todo.id === id) {
-          return {...todo, title, isEdit: false}
+          return { ...todo, title, isEdit: false };
         }
-        return todo
-      })
-    })
-  }
+        return todo;
+      });
+    });
+  };
+
+  const handleDelete = (id) => {
+    setTodos((todos) => {
+      return todos.filter((todo) => todo.id !== id);
+    });
+  };
+
   return (
     <div>
       TodoPage
@@ -101,6 +108,7 @@ const TodoPage = () => {
         onToggleDone={handleToggleDown}
         onChangeMode={handleChangeMode}
         onSave={handleSave}
+        onDelete={handleDelete}
       />
     </div>
   );
