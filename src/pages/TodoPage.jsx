@@ -110,6 +110,7 @@ const TodoPage = () => {
         onSave={handleSave}
         onDelete={handleDelete}
       />
+      <Footer todos={todos}/>
     </div>
   );
 };
