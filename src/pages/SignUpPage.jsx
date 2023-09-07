@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   AuthContainer,
   AuthInputContainer,
@@ -15,6 +15,7 @@ const SignUpPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const navigate = useNavigate()
 
   const handleClick = async () => {
     if (username.length === 0 || password.length === 0 || email.length === 0) {
@@ -28,6 +29,7 @@ const SignUpPage = () => {
     if (success) {
       localStorage.setItem('authToken', authToken);
       Toast.fire({ icon: 'success', title: '註冊成功' });
+      navigate('/todos')
     } else {
       Toast.fire({ icon: 'error', title: '註冊失敗' });
     }
