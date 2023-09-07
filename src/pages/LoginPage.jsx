@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import {
   AuthContainer,
   AuthInputContainer,
@@ -21,6 +22,26 @@ const LoginPage = () => {
     const { success, authToken } = await login({ username, password });
     if (success) {
       localStorage.setItem('authToken', authToken);
+      Swal.fire({
+        position: 'top',
+        toast: true,
+        width: '14em',
+        title: '登入成功',
+        timer: 1500,
+        icon: 'success',
+        showConfirmButton: false,
+      });
+      return;
+    } else {
+      Swal.fire({
+        position: 'top',
+        toast: true,
+        width: '14em',
+        title: '登入失敗',
+        timer: 1500,
+        icon: 'error',
+        showConfirmButton: false,
+      });
     }
   };
   return (
