@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Footer, Header, TodoCollection, TodoInput } from 'components';
 
-import { getTodos, createTodo } from '../api/todos';
+import { getTodos, createTodo, patchTodo, deleteTodo } from '../api/todos';
 
 const TodoPage = () => {
   const [inputValue, setInputValue] = useState('');
@@ -49,15 +49,21 @@ const TodoPage = () => {
     setInputValue('');
   };
 
-  const handleToggleDown = (id) => {
-    setTodos((todos) => {
-      return todos.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, isDone: !todo.isDone };
-        }
-        return todo;
+  const handleToggleDown = async (id) => {
+    const toggleTodo = todos.find((todo) => todo.id === id);
+    try {
+      await patchTodo({ id, isDone: !toggleTodo.isDone });
+      setTodos((todos) => {
+        return todos.map((todo) => {
+          if (todo.id === id) {
+            return { ...todo, isDone: !todo.isDone };
+          }
+          return todo;
+        });
       });
-    });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleChangeMode = ({ id, isEdit }) => {
@@ -71,21 +77,31 @@ const TodoPage = () => {
     });
   };
 
-  const handleSave = ({ id, title }) => {
-    setTodos((todos) => {
-      return todos.map((todo) => {
-        if (todo.id === id) {
-          return { ...todo, title, isEdit: false };
-        }
-        return todo;
+  const handleSave = async ({ id, title }) => {
+    try {
+      await patchTodo({ id, title });
+      setTodos((todos) => {
+        return todos.map((todo) => {
+          if (todo.id === id) {
+            return { ...todo, title, isEdit: false };
+          }
+          return todo;
+        });
       });
-    });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const handleDelete = (id) => {
-    setTodos((todos) => {
-      return todos.filter((todo) => todo.id !== id);
-    });
+  const handleDelete = async (id) => {
+    try {
+      await deleteTodo({ id });
+      setTodos((todos) => {
+        return todos.filter((todo) => todo.id !== id);
+      });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   useEffect(() => {
