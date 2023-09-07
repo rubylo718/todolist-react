@@ -8,11 +8,30 @@ import {
 } from 'components/common/auth.styled';
 import { ACLogoIcon } from 'assets/images';
 import { AuthInput } from 'components';
+import { register } from '../api/auth';
+import { Toast } from '../utils/toast-helper';
 
 const SignUpPage = () => {
-  const [userName, setUserName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+
+  const handleClick = async () => {
+    if (username.length === 0 || password.length === 0 || email.length === 0) {
+      return;
+    }
+    const { success, authToken } = await register({
+      username,
+      email,
+      password,
+    });
+    if (success) {
+      localStorage.setItem('authToken', authToken);
+      Toast.fire({ icon: 'success', title: '註冊成功' });
+    } else {
+      Toast.fire({ icon: 'error', title: '註冊失敗' });
+    }
+  };
   return (
     <AuthContainer>
       <div>
@@ -23,9 +42,9 @@ const SignUpPage = () => {
       <AuthInputContainer>
         <AuthInput
           label="帳號"
-          value={userName}
+          value={username}
           placeholder="請輸入使用者名稱"
-          onChange={(nameInputValue) => setUserName(nameInputValue)}
+          onChange={(nameInputValue) => setUsername(nameInputValue)}
         />
       </AuthInputContainer>
 
@@ -48,7 +67,7 @@ const SignUpPage = () => {
           onChange={(passwordInputValue) => setPassword(passwordInputValue)}
         />
       </AuthInputContainer>
-      <AuthButton>註冊</AuthButton>
+      <AuthButton onClick={handleClick}>註冊</AuthButton>
       <Link to="/login">
         <AuthLinkText>取消</AuthLinkText>
       </Link>
