@@ -1,6 +1,7 @@
-import { useState, createContext } from 'react';
+import { useState, useEffect, createContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import * as jwt from 'jsonwebtoken';
-import { register, login } from '../api/auth';
+import { register, login, checkPermission } from '../api/auth';
 
 const defaultAuthContext = {
   isAuthenticated: false,
@@ -15,6 +16,28 @@ const AuthContext = createContext(defaultAuthContext);
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState(null);
+
+  const { location } = useLocation();
+  useEffect(() => {
+    const checkTokenIsValid = async () => {
+      const authToken = localStorage.getItem('authToken');
+      if (!authToken) {
+        setIsAuthenticated(false);
+        setPayload(null);
+        return;
+      }
+      const result = await checkPermission(authToken);
+      if (result) {
+        setIsAuthenticated(true);
+        const tempPayload = jwt.decode(authToken);
+        setPayload(tempPayload);
+      } else {
+        setIsAuthenticated(false);
+        setPayload(null);
+      }
+    };
+    checkTokenIsValid();
+  }, [location]);
 
   return (
     <AuthContext.Provider
