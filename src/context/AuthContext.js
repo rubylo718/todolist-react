@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [payload, setPayload] = useState(null);
 
-  const { location } = useLocation();
+  const { pathname } = useLocation();
   useEffect(() => {
     const checkTokenIsValid = async () => {
       const authToken = localStorage.getItem('authToken');
@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
       }
     };
     checkTokenIsValid();
-  }, [location]);
+  }, [pathname]);
 
   return (
     <AuthContext.Provider
