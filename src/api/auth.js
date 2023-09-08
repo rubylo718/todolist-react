@@ -36,3 +36,16 @@ export const register = async ({ username, email, password }) => {
     console.error('[Register Failed]: ', err);
   }
 };
+
+export const checkPermission = async (authToken) => {
+  try {
+    const res = await axios.get(`${authUrl}/test-token`, {
+      headers: {
+        Authorization: 'Bearer ' + authToken,
+      },
+    });
+    return res.data.success;
+  } catch (err) {
+    console.error(`[Check Permission Failed: ]`, err);
+  }
+};
