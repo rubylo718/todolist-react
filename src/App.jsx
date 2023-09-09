@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.scss';
-import { TodoPage, LoginPage, SignUpPage } from './pages';
+import { TodoPage, LoginPage, SignUpPage, HomePage } from './pages';
 import { AuthProvider } from 'context/AuthContext';
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
             <Route path="todos" element={<TodoPage />}></Route>
             <Route path="signup" element={<SignUpPage />}></Route>
             <Route path="login" element={<LoginPage />}></Route>
-            <Route path="*" element={<TodoPage />}></Route>
+            <Route path="*" element={<HomePage />}></Route>
           </Routes>
         </AuthProvider>
       </BrowserRouter>
