@@ -8,7 +8,7 @@ import {
 } from 'components/common/auth.styled';
 import { ACLogoIcon } from 'assets/images';
 import { AuthInput } from 'components';
-import { register, checkPermission } from '../api/auth';
+import { useAuth } from '../context/AuthContext';
 import { Toast } from '../utils/toast-helper';
 
 const SignUpPage = () => {
@@ -16,36 +16,26 @@ const SignUpPage = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const navigate = useNavigate();
+  const { register, isAuthenticated } = useAuth();
 
   const handleClick = async () => {
     if (username.length === 0 || password.length === 0 || email.length === 0) {
       return;
     }
-    const { success, authToken } = await register({
-      username,
-      email,
-      password,
-    });
+    const success = await register({ username, email, password });
     if (success) {
-      localStorage.setItem('authToken', authToken);
       Toast.fire({ icon: 'success', title: '註冊成功' });
-      navigate('/todos');
+      return
     } else {
       Toast.fire({ icon: 'error', title: '註冊失敗' });
     }
   };
 
   useEffect(() => {
-    const checkTokenIsValid = async () => {
-      const authToken = localStorage.getItem('authToken');
-      if (!authToken) return;
-      const result = await checkPermission(authToken);
-      if (result) {
-        navigate('/todos');
-      }
-    };
-    checkTokenIsValid();
-  }, [navigate]);
+    if (isAuthenticated) {
+      navigate('/todos');
+    }
+  }, [navigate, isAuthenticated]);
 
   return (
     <AuthContainer>
