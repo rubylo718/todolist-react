@@ -9,7 +9,7 @@ const TodoPage = () => {
   const [inputValue, setInputValue] = useState('');
   const [todos, setTodos] = useState([]);
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, currentUser } = useAuth();
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
@@ -129,7 +129,7 @@ const TodoPage = () => {
   return (
     <div>
       TodoPage
-      <Header />
+      <Header username={currentUser?.name} />
       <TodoInput
         inputValue={inputValue}
         onChange={handleChange}
