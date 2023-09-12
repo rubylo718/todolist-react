@@ -1,10 +1,9 @@
-import axios from 'axios';
-
-const authUrl = 'https://todo-list.alphacamp.io/api/auth';
+// import axios from 'axios';
+import { axiosInstance } from '../config/axios-helper';
 
 export const login = async ({ username, password }) => {
   try {
-    const { data } = await axios.post(`${authUrl}/login`, {
+    const { data } = await axiosInstance.post(`/auth/login`, {
       username,
       password,
     });
@@ -21,7 +20,7 @@ export const login = async ({ username, password }) => {
 
 export const register = async ({ username, email, password }) => {
   try {
-    const { data } = await axios.post(`${authUrl}/register`, {
+    const { data } = await axiosInstance.post(`/auth/register`, {
       username,
       email,
       password,
@@ -39,7 +38,7 @@ export const register = async ({ username, email, password }) => {
 
 export const checkPermission = async (authToken) => {
   try {
-    const res = await axios.get(`${authUrl}/test-token`, {
+    const res = await axiosInstance.get(`/auth/test-token`, {
       headers: {
         Authorization: 'Bearer ' + authToken,
       },

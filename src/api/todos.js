@@ -1,6 +1,19 @@
 // import axios from 'axios';
 // const baseUrl = 'http://localhost:3001';
-import { axiosInstance } from '../utils/axios-helper';
+import { axiosInstance } from '../config/axios-helper';
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return console.error(error);
+  },
+);
 
 export const getTodos = async () => {
   try {
